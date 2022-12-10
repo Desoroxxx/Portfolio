@@ -5,11 +5,6 @@ self.addEventListener('message', event => {
 //Background of the site originaly from https://codepen.io/al-ro/pen/oRZLbd//
 ////////////////////////////////////////////////////////////////////////////
 
-var canvas = document.getElementById("canvas");
-
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
 // Initialize the GL context
 var gl = canvas.getContext('webgl');
 if(!gl){
@@ -85,17 +80,6 @@ void main(){
 `;
 
 //************** Utility functions **************
-
-window.addEventListener( 'resize', onWindowResize, false );
-
-function onWindowResize(){
-  canvas.width  = window.innerWidth;
-  canvas.height = window.innerHeight;
-	gl.viewport(0, 0, canvas.width, canvas.height);
-  gl.uniform1f(widthHandle, window.innerWidth);
-  gl.uniform1f(heightHandle, window.innerHeight);
-}
-
 
 //Compile shader and combine with source
 function compileShader(shaderSource, shaderType){

@@ -1,13 +1,28 @@
 // First, create a new Worker instance and pass it the URL of your JavaScript file
 const worker = new Worker('background.js');
 
+var canvas = document.getElementById("canvas");
+
 // Next, send data to the worker by calling the `postMessage` method on the Worker instance
-worker.postMessage({ someData: 'hello there!' });
+worker.postMessage({canvas});
 
 // Finally, listen for messages from the worker by setting up an event listener for the `message` event
 worker.addEventListener('message', event => {
   console.log(`Received message from worker:`, event.data);
 });
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+window.addEventListener( 'resize', onWindowResize, false );
+
+function onWindowResize(){
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+	gl.viewport(0, 0, canvas.width, canvas.height);
+  gl.uniform1f(widthHandle, window.innerWidth);
+  gl.uniform1f(heightHandle, window.innerHeight);
+}
 
 ////////////////////////////
 //About me text animation//
