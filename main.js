@@ -4,7 +4,7 @@ const worker = new Worker('background.js');
 var canvas = document.getElementById("canvas");
 
 // Next, send data to the worker by calling the `postMessage` method on the Worker instance
-worker.postMessage({canvas});
+worker.postMessage({ someData: 'hello there!' });
 
 // Finally, listen for messages from the worker by setting up an event listener for the `message` event
 worker.addEventListener('message', event => {
