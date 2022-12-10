@@ -1,11 +1,5 @@
 // Listen for messages from the main thread
 self.addEventListener('message', event => {
-    // Access the data that was sent by calling the `data` property on the `event` object
-    console.log(`Received data from main thread:`, event.data);
-  
-    // Send data back to the main thread by calling the `postMessage` method on the `self` object
-    self.postMessage({ someData: 'hello from the worker!' });
-  });  
 
 //////////////////////////////////////////////////////////////////////////////
 //Background of the site originaly from https://codepen.io/al-ro/pen/oRZLbd//
@@ -209,3 +203,7 @@ let canDraw = 1
 
 
 draw();
+
+    // Send data back to the main thread by calling the `postMessage` method on the `self` object
+    self.postMessage({ someData: 'hello from the worker!' });
+  });  
