@@ -1,15 +1,3 @@
-// First, create a new Worker instance and pass it the URL of your JavaScript file
-const worker = new Worker('worker.js');
-
-// Next, send data to the worker by calling the `postMessage` method on the Worker instance
-worker.postMessage({ someData: 'hello there!' });
-
-// Finally, listen for messages from the worker by setting up an event listener for the `message` event
-worker.addEventListener('message', event => {
-  console.log(`Received message from worker:`, event.data);
-  worker.terminate();
-});
-
 //////////////////////////////////////////////////////////////////////////////
 //Background of the site originaly from https://codepen.io/al-ro/pen/oRZLbd//
 ////////////////////////////////////////////////////////////////////////////
@@ -41,8 +29,6 @@ void main() {
 var fragmentSource = `
 precision highp float;
 
-#define AA
-
 uniform float width;
 uniform float height;
 vec2 resolution = vec2(width, height);
@@ -51,50 +37,46 @@ uniform float time;
 
 void main(){
 
-	float strength = 0.4;
-	float t = time/6.0;
+  // Precompute some values that will be used multiple times
+  float t = time/6.0;
+  float strength = 0.4;
+  vec2 pos = gl_FragCoord.xy/resolution.xy;
+  pos.y /= resolution.x/resolution.y;
+  pos = 4.0*(vec2(0.5) - pos);
 
-	vec3 col = vec3(0);
-	vec2 fC = gl_FragCoord.xy;
+  // Vectorize the inner loop
+  vec4 k = vec4(1.0, 2.0, 3.0, 4.0);
+  vec2 offset = vec2(strength * sin(2.0*t+k.x*1.5 * pos.y)+t*0.5, strength * cos(2.0*t+k.x*1.5 * pos.x));
+  pos += offset;
+  offset = vec2(strength * sin(2.0*t+k.y*1.5 * pos.y)+t*0.5, strength * cos(2.0*t+k.y*1.5 * pos.x));
+  pos += offset;
+  offset = vec2(strength * sin(2.0*t+k.z*1.5 * pos.y)+t*0.5, strength * cos(2.0*t+k.z*1.5 * pos.x));
+  pos += offset;
+  offset = vec2(strength * sin(2.0*t+k.w*1.5 * pos.y)+t*0.5, strength * cos(2.0*t+k.w*1.5 * pos.x));
+  pos += offset;
 
-	#ifdef AA
-	for(int i = -1; i <= 1; i++) {
-		for(int j = -1; j <= 1; j++) {
-
-			fC = gl_FragCoord.xy+vec2(i,j)/3.0;
-
-			#endif
-
-			//Normalized pixel coordinates (from 0 to 1)
-			vec2 pos = fC/resolution.xy;
-
-			pos.y /= resolution.x/resolution.y;
-			pos = 4.0*(vec2(0.5) - pos);
-
-			for(float k = 1.0; k < 7.0; k+=1.0){ 
-				pos.x += strength * sin(2.0*t+k*1.5 * pos.y)+t*0.5;
-				pos.y += strength * cos(2.0*t+k*1.5 * pos.x);
-			}
-
-			//Time varying pixel colour
-			col += 0.5 + 0.5*cos(time+pos.xyx+vec3(0,2,4));
-
-			#ifdef AA
-		}
-	}
-
-	col /= 9.0;
-	#endif
+  //Time varying pixel colour
+  vec3 col = 0.5 + 0.5*cos(time+pos.xyx+vec3(0,2,4));
 
   //Gamma
   col = pow(col, vec3(0.4545));
 
-	//Fragment colour
-	gl_FragColor = vec4(col,1.0);
+  //Fragment colour
+  gl_FragColor = vec4(col,1.0);
 }
 `;
 
 //************** Utility functions **************
+
+window.addEventListener( 'resize', onWindowResize, false );
+
+function onWindowResize(){
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+	gl.viewport(0, 0, canvas.width, canvas.height);
+  gl.uniform1f(widthHandle, window.innerWidth);
+  gl.uniform1f(heightHandle, window.innerHeight);
+}
 
 //Compile shader and combine with source
 function compileShader(shaderSource, shaderType){
@@ -144,7 +126,7 @@ var vertexData = new Float32Array([
   -1.0,  1.0, 	// top left
   -1.0, -1.0, 	// bottom left
    1.0,  1.0, 	// top right
-   1.0, -1.0, 	// bottom right
+   1.0, -1.0 	// bottom right
 ]);
 
 //Create vertex buffer
@@ -197,20 +179,53 @@ function draw(){
   requestAnimationFrame(draw);
 }
 
-
 let canDraw = 1
-
 
 draw();
 
-window.addEventListener( 'resize', onWindowResize, false );
+////////////////////////////
+//About me text animation//
+//////////////////////////
 
-function onWindowResize(){
-  canvas.width  = window.innerWidth;
-  canvas.height = window.innerHeight;
-	gl.viewport(0, 0, canvas.width, canvas.height);
-  gl.uniform1f(widthHandle, window.innerWidth);
-  gl.uniform1f(heightHandle, window.innerHeight);
+const sentences = ["making code and things faster and more efficient and simpler and easier to look at and easier to understand.","optimizing things!"];
+let i = 0;
+let counter;
+
+setTimeout(deleteText, 3000);
+
+function deleteText() {
+    let word = sentences[i].split("");
+    
+    var loopDeleting = function() {
+        if (word.length > 0) {
+            word.pop();
+            document.getElementById('text').innerHTML = word.join("");
+        } else {
+            i++;
+            writeText();
+        }
+        counter = setTimeout(loopDeleting, 50);
+    }            
+    loopDeleting();
+}
+
+function writeText() {
+    let word = sentences[i].split("");
+
+    var loopWrite = function() {
+        if (word.length > 0) {                    
+            document.getElementById('text').innerHTML += word.shift();
+        } else {
+            setTimeout(removeProperty, 1000);
+        }
+        counter = setTimeout(loopWrite, 200);
+   }
+   loopWrite();
+}
+
+// Remove the cursor
+function removeProperty() {            
+    document.getElementById('text').style.removeProperty('border-right');
 }
 
 /////////////////////////////////////////
@@ -226,7 +241,7 @@ function updateIcons() {
 
   // Set the src attribute of each icon to the appropriate URL
   icons.forEach(function(icon) {
-    icon.src = isLightTheme ? 'github-mark.svg' : 'github-mark-white.svg';
+    icon.src = isLightTheme ? 'assets/github-mark.svg' : 'assets/github-mark-white.svg';
   });
 }
 
