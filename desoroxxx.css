@@ -15,17 +15,17 @@
 		text-shadow: 2px 2px 16px #FFFFFF;
 	}
 
-	.card_content {
+	.card div {
 		border: 1px solid rgba(255, 255, 255, 0.125);
 		background: rgba(255, 255, 255, 0.575);
 	}
 
-	.btn {
+	.card button {
 		color: #141617;
 		border: 1px solid rgba(26, 28, 29, 0.2);
 	}
 
-	.btn:hover {
+	.card button:hover {
 		background-color: rgba(26, 28, 29, 0.12);
 	}
 }
@@ -46,17 +46,17 @@
 		text-shadow: 2px 2px 16px #1A1C1D;
 	}
 
-	.card_content {
+	.card div {
 		border: 1px solid rgba(26, 28, 29, 0.125);
 		background: rgba(26, 28, 29, 0.575);
 	}
 
-	.btn {
+	.card button {
 		color: #ffffff;
 		border: 1px solid rgba(255, 255, 255, 0.2);
 	}
 
-	.btn:hover {
+	.card button:hover {
 		background-color: rgba(255, 255, 255, 0.12);
 	}
 }
@@ -64,7 +64,6 @@
 * {
 	font-family: 'Nunito';
 }
-
 
 canvas {
 	z-index: -1;
@@ -76,6 +75,7 @@ canvas {
 	filter: blur(20px);
 }
 
+/* Languages Name */
 span {
 	font-size: 1.0625rem;
 }
@@ -85,31 +85,39 @@ span {
 	width:82px;
 	height:95px;
 	top: 44px;
-	left: 60px;
+	margin-left: 5%;
 }
 
 .header-div {
+	position: relative;
 	position: static;
 	margin: 140px 0% 0% 10%;
 	width: 80%;
-	height: 220px;
+	max-height: 120px;
 }
+
+/* Title */
 
 .title {
     position: relative;
     padding: 0px 0px 0px 90px;
 	top: -110px;
 	font-size: 2.625rem;
+	font-size: 3rem;
+	height: 3rem;
 }
 .title.desc {
     top: -140px;
 	font-size: 1.5rem;
+	height: 1.5rem;
+	left: 2px;
 }
 
+/* Box */
 
 .box {
 	position: sticky;
-	margin: -4% auto 150px;
+	margin: 2% auto 80px;
 	width: 80%;
 	border-radius: 20px;
 	padding-left: 40px;
@@ -123,9 +131,7 @@ span {
 	top: -10px;
 }
 
-.about-me-fixed {
-	font-size: 1rem;
-}
+/* About Me */
 
 .about-me {
 	font-size: 1rem;
@@ -133,6 +139,9 @@ span {
 }
 .about-me.hello {
 	font-size: 1.125rem;
+}
+.about-me.fixed {
+	margin-right: 0px;
 }
 .about-me.cursor {
 	animation: blink .6s step-end infinite alternate;
@@ -144,24 +153,76 @@ span {
 	}
 }
 
-.btn {
+/* Cards */
+  
+.cards {
+	list-style: none;
+	text-align: center;
+	margin: 0;
+	padding: 0;
+}
+  
+.cards_item {
+	display: inline-block;
+	padding: 1rem;
+	height: 40%;
+}
+  
+.card {
+	border-radius: 0.25rem;
+	box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	border-radius: 10px;
+	max-width: 800px;
+}
+
+.cardimg {
+	height: auto;
+	max-width: 100%;
+	max-height: 100%;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.card div {
+	padding: 1rem;
+}
+
+.card h2 {
+	font-size: 1.1rem;
+	letter-spacing: 1px;
+	margin: 0px;
+}
+
+.card p {
+	font-size: 0.875rem;
+	line-height: 1.5;
+}
+
+.cards_item h4 {
+	font-size: 1.125rem;
+}
+
+.card button {
 	padding: 0.8rem;
 	font-size: 0.875rem;
 	text-transform: uppercase;
-	border-radius: 4px;
 	display: block;
 	width: 100%;
 	background: transparent;
 	height: 44px;
 	cursor: pointer;
-  }
+}
 
-.icon {
+.github-icon {
 	position: relative;
 	height: 32px;
 	padding: 0px;
 	right: 10px;
-	top: 12px;
+	top: 10px;
 	margin-left: -33px;
 	margin-top: -32px;
     -webkit-user-drag: none;
@@ -170,60 +231,15 @@ span {
     -webkit-user-select: none;
     -ms-user-select: none;
 }
-  
-  .cards {
-	list-style: none;
-	text-align: center;
-	margin: 0;
-	padding: 0;
-  }
-  
-  .cards_item {
-	display: inline-block;
-	padding: 1rem;
-	height: 40%;
-  }
 
-  
-  .card {
-	border-radius: 0.25rem;
-	box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
-	display: flex;
-	flex-direction: column;
-	overflow: hidden;
-	border-radius: 10px;
-	max-width: 800px;
-  }
-  
-  .card_content {
-	padding: 1rem;
-  }
-  
-  .card_title {
-	font-size: 1.1rem;
-	letter-spacing: 1px;
-	text-transform: capitalize;
-	margin: 0px;
-  }
-  
-  .card_text {
-	font-size: 0.875rem;
-	line-height: 1.5;
-  }
+.single {
+	border-radius: 8px;
+}
 
-  .cards_item h4 {
-	font-size: 1.125rem;
-  }
+.top {
+	border-radius: 8px 8px 0px 0px;
+}
 
-  .cards_item h5 {
-	font-size: 1rem;
-  }
-
-  .cardimg {
-	height: auto;
-	max-width: 100%;
-	max-height: 100%;
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-  }
+.bottom {
+	border-radius: 0px 0px 8px 8px;
+}
