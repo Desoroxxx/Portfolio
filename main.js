@@ -2,7 +2,7 @@
 const worker = new Worker('worker.js');
 
 // Next, send data to the worker by calling the `postMessage` method on the Worker instance
-worker.postMessage();
+worker.postMessage({ someData: 'hello there!' });
 
 // Finally, listen for messages from the worker by setting up an event listener for the `message` event
 worker.addEventListener('message', event => {
