@@ -54,15 +54,22 @@
 	.card button {
 		color: #ffffff;
 		border: 1px solid rgba(255, 255, 255, 0.2);
+		background-color: rgba(255, 255, 255, 0);
+		transition: background-color 750ms linear;
 	}
 
 	.card button:hover {
-		background-color: rgba(255, 255, 255, 0.12);
+		background-color: rgba(255, 255, 255, 0.2);
+		transition: background-color 250ms linear;
 	}
 }
 
 * {
 	font-family: 'Nunito';
+}
+
+html {
+	scroll-behavior: smooth;
 }
 
 canvas {
@@ -241,4 +248,9 @@ span {
 
 .bottom {
 	border-radius: 0px 0px 8px 8px;
+}
+
+.contact {
+	font-size: 1.0625rem;
+	color:#E44444;
 }
