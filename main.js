@@ -3,8 +3,11 @@ const worker = new Worker('background.js');
 
 var canvas = document.getElementById("canvas");
 
+// Initialize the GL context
+var gl = canvas.getContext('webgl');
+
 // Next, send data to the worker by calling the `postMessage` method on the Worker instance
-worker.postMessage({ someData: 'hello there!' });
+worker.postMessage({gl});
 
 // Finally, listen for messages from the worker by setting up an event listener for the `message` event
 worker.addEventListener('message', event => {

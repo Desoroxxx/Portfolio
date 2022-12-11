@@ -5,8 +5,7 @@ self.addEventListener('message', event => {
 //Background of the site originaly from https://codepen.io/al-ro/pen/oRZLbd//
 ////////////////////////////////////////////////////////////////////////////
 
-// Initialize the GL context
-var gl = canvas.getContext('webgl');
+
 if(!gl){
   console.error("Unable to initialize WebGL.");
 }
