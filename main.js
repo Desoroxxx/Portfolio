@@ -191,11 +191,11 @@ const sentences = ["making code and things faster and more efficient and simpler
 let i = 0;
 let counter;
 
-setTimeout(deleteText, 3000);
+setTimeout(deleteText, 5000);
 
 function deleteText() {
     let word = sentences[i].split("");
-    
+
     var loopDeleting = function() {
         if (word.length > 0) {
             word.pop();
@@ -204,7 +204,7 @@ function deleteText() {
             i++;
             writeText();
         }
-        counter = setTimeout(loopDeleting, 50);
+        counter = setTimeout(loopDeleting, 40);
     }            
     loopDeleting();
 }
@@ -218,7 +218,7 @@ function writeText() {
         } else {
             setTimeout(removeProperty, 1000);
         }
-        counter = setTimeout(loopWrite, 200);
+        counter = setTimeout(loopWrite, 80);
    }
    loopWrite();
 }
@@ -233,16 +233,14 @@ function removeProperty() {
 ///////////////////////////////////////
 
 // Get all elements with the "icon" class
-const icons = document.querySelectorAll(".icon");
+const icons = document.querySelectorAll(".github-icon");
 
 function updateIcons() {
   // Check if the user's preferred color scheme is light or dark
   const isLightTheme = window.matchMedia(`(prefers-color-scheme: light)`).matches;
 
   // Set the src attribute of each icon to the appropriate URL
-  icons.forEach(function(icon) {
-    icon.src = isLightTheme ? 'assets/github-mark.svg' : 'assets/github-mark-white.svg';
-  });
+  icons.forEach(icon => icon.src = isLightTheme ? 'assets/github-mark.svg' : 'assets/github-mark-white.svg');
 }
 
 // Listen for changes in the user's preferred color scheme
