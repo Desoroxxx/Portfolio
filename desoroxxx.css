@@ -175,7 +175,6 @@ span {
 	flex-direction: column;
 	overflow: hidden;
 	border-radius: 10px;
-	max-width: 800px;
 }
 
 .cardimg {
